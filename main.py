@@ -4,23 +4,18 @@ from email.utils import formataddr
 from email.mime.text import MIMEText
 
 
-def send(host, ):
-    host = "192.168.1.5"  # 定义smtp主机
-    subject = "test email form python"  # 定义邮件主题
-    to = "11111@163.com"  # 定义邮件收件人
-    from_ = "22222@163.com"  # 定义邮件发件人
-    text = "python is test smtp"  # 邮件内容,编码为ASCII范围内的字符或字节字符串，所以不能写中文
+def send(host, subject, from_addr, to_addr, msg):
     body = '\r\n'.join((  # 组合sendmail方法的邮件主体内容，各段以"\r\n"进行分离
         "From: %s" % "admin",
-        "TO: %s" % to,
+        "TO: %s" % to_addr,
         "subject: %s" % subject,
         "",
-        text
+        msg
     ))
     server = SMTP()  # 创建一个smtp对象
     server.connect(host, 25)  # 链接smtp主机
     # server.login(from_, "123")  # 邮箱账号登陆
-    server.sendmail(from_, to, body)  # 发送邮件
+    server.sendmail(from_addr, to_addr, body)  # 发送邮件
     server.quit()  # 端口smtp链接
 
 
@@ -46,6 +41,10 @@ def send_mail():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    send()
+    host = "192.168.1.5"  # 定义smtp主机
+    subject = "test email form python"  # 定义邮件主题
+    from_addr = "22222@163.com"  # 定义邮件发件人
+    to_addr = "11111@163.com"  # 定义邮件收件人
+    msg = "python is test smtp"  # 邮件内容,编码为ASCII范围内的字符或字节字符串，所以不能写中文
+    send(host, subject, from_addr, to_addr, msg)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
