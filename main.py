@@ -2,6 +2,7 @@ import smtplib
 from smtplib import SMTP
 from email.utils import formataddr
 from email.mime.text import MIMEText
+import faker
 
 
 def send(host, subject, from_addr, to_addr, msg):
@@ -41,10 +42,20 @@ def send_mail():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    host = "192.168.1.5"  # 定义smtp主机
-    subject = "test email form python"  # 定义邮件主题
-    from_addr = "22222@163.com"  # 定义邮件发件人
-    to_addr = "11111@163.com"  # 定义邮件收件人
-    msg = "python is test smtp"  # 邮件内容,编码为ASCII范围内的字符或字节字符串，所以不能写中文
-    send(host, subject, from_addr, to_addr, msg)
+    fk = faker.Faker()
+    mail_num = 200
 
+    for i in range(mail_num):
+        # host = fk.ipv4() # 定义smtp主机
+        host = "127.0.0.1"  # 定义smtp主机
+        subject = fk.paragraph()  # 定义邮件主题
+        from_addr = fk.email()  # 定义邮件发件人
+        to_addr = fk.email()  # 定义邮件收件人
+        msg = ""
+        msgs = fk.paragraphs(3)
+        for m in msgs:
+            msg = msg + m + '\n'
+        # msg = "python is test smtp"  # 邮件内容,编码为ASCII范围内的字符或字节字符串，所以不能写中文
+        send(host, subject, from_addr, to_addr, msg)
+        if ((i + 1) % 5 == 0):
+            print(str(i + 1)+" massages sent")    
